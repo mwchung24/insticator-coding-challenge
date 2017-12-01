@@ -2885,15 +2885,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var middlewares = [_reduxThunk2.default];
 
 if (process.env.NODE_ENV !== 'production') {
-  // must user 'require' (import only allowed at top of file)
   var _require = __webpack_require__(44),
       createLogger = _require.createLogger;
 
   middlewares.push(createLogger());
 }
 
-var configureStore = function configureStore(preloadedState) {
-  return (0, _redux.createStore)(_root_reducer2.default, preloadedState, _redux.applyMiddleware.apply(undefined, middlewares));
+var configureStore = function configureStore() {
+  return (0, _redux.createStore)(_root_reducer2.default, _redux.applyMiddleware.apply(undefined, middlewares));
 };
 
 exports.default = configureStore;
@@ -3514,7 +3513,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(9);
 
-var rootReducer = (0, _redux.combineReducers)({});
+var _fruits_reducer = __webpack_require__(83);
+
+var _fruits_reducer2 = _interopRequireDefault(_fruits_reducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rootReducer = (0, _redux.combineReducers)({
+  fruits: _fruits_reducer2.default
+});
 
 exports.default = rootReducer;
 
@@ -19439,6 +19446,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(62);
 
+var _fruits_container = __webpack_require__(79);
+
+var _fruits_container2 = _interopRequireDefault(_fruits_container);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App(_ref) {
@@ -19446,11 +19457,7 @@ var App = function App(_ref) {
   return _react2.default.createElement(
     _reactRedux.Provider,
     { store: store },
-    _react2.default.createElement(
-      'div',
-      null,
-      'hi'
-    )
+    _react2.default.createElement(_fruits_container2.default, null)
   );
 };
 
@@ -21294,6 +21301,190 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
   verify(mapDispatchToProps, 'mapDispatchToProps', displayName);
   verify(mergeProps, 'mergeProps', displayName);
 }
+
+/***/ }),
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(62);
+
+var _fruits = __webpack_require__(80);
+
+var _fruits2 = _interopRequireDefault(_fruits);
+
+var _fruit_actions = __webpack_require__(81);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  // debugger
+  return {
+    fruits: state.fruits
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchFruits: function fetchFruits(fruits) {
+      return dispatch((0, _fruit_actions.fetchFruits)(fruits));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_fruits2.default);
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Fruits = function (_React$Component) {
+  _inherits(Fruits, _React$Component);
+
+  function Fruits(props) {
+    _classCallCheck(this, Fruits);
+
+    return _possibleConstructorReturn(this, (Fruits.__proto__ || Object.getPrototypeOf(Fruits)).call(this, props));
+  }
+
+  _createClass(Fruits, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.fetchFruits();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        'testing'
+      );
+    }
+  }]);
+
+  return Fruits;
+}(_react2.default.Component);
+
+exports.default = Fruits;
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchFruits = exports.receiveFruits = exports.RECEIVE_FRUITS = undefined;
+
+var _fruit_api_util = __webpack_require__(82);
+
+var APIUtil = _interopRequireWildcard(_fruit_api_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_FRUITS = exports.RECEIVE_FRUITS = 'RECEIVE_FRUITS';
+
+var receiveFruits = exports.receiveFruits = function receiveFruits(fruits) {
+  return {
+    type: RECEIVE_FRUITS,
+    fruits: fruits
+  };
+};
+
+var fetchFruits = exports.fetchFruits = function fetchFruits() {
+  return function (dispatch) {
+    var fruits = APIUtil.fetchFruits();
+    dispatch(receiveFruits(fruits));
+  };
+};
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var fetchFruits = exports.fetchFruits = function fetchFruits() {
+  var fruits = __webpack_require__(84);
+  return fruits;
+};
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _fruit_actions = __webpack_require__(81);
+
+var FruitsReducer = function FruitsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    case _fruit_actions.RECEIVE_FRUITS:
+      return action.fruits;
+    default:
+      return state;
+  }
+};
+
+exports.default = FruitsReducer;
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports) {
+
+module.exports = [{"itemName":"banana","imgSrc":"https://tinyurl.com/zcdrymz","price":1.25,"quantityRemaining":10},{"itemName":"apple","imgSrc":"https://tinyurl.com/lg5rj5z","price":2.5,"quantityRemaining":5},{"itemName":"raspberry","imgSrc":"https://tinyurl.com/mhoedwl","price":4,"quantityRemaining":2},{"itemName":"kiwi","imgSrc":"https://tinyurl.com/mdm9kho","price":3.33,"quantityRemaining":15},{"itemName":"very delicious pineapple with a long name","imgSrc":"https://tinyurl.com/k2oq2to","price":4.75,"quantityRemaining":1},{"itemName":"strawberries","imgSrc":"https://tinyurl.com/nyy33hf","price":2.05,"quantityRemaining":3}]
 
 /***/ })
 /******/ ]);
