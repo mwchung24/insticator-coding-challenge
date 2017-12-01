@@ -21364,6 +21364,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _fruit_index_item = __webpack_require__(85);
+
+var _fruit_index_item2 = _interopRequireDefault(_fruit_index_item);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21389,11 +21393,25 @@ var Fruits = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var fruits = this.props.fruits;
+      var all_fruits = void 0;
+      if (fruits) {
+        all_fruits = fruits.map(function (fruit) {
+          return _react2.default.createElement(_fruit_index_item2.default, {
+            key: fruit.id,
+            fruit: fruit
+          });
+        });
+      }
 
       return _react2.default.createElement(
         'div',
         null,
-        'testing'
+        _react2.default.createElement(
+          'ul',
+          null,
+          all_fruits
+        )
       );
     }
   }]);
@@ -21484,7 +21502,79 @@ exports.default = FruitsReducer;
 /* 84 */
 /***/ (function(module, exports) {
 
-module.exports = [{"itemName":"banana","imgSrc":"https://tinyurl.com/zcdrymz","price":1.25,"quantityRemaining":10},{"itemName":"apple","imgSrc":"https://tinyurl.com/lg5rj5z","price":2.5,"quantityRemaining":5},{"itemName":"raspberry","imgSrc":"https://tinyurl.com/mhoedwl","price":4,"quantityRemaining":2},{"itemName":"kiwi","imgSrc":"https://tinyurl.com/mdm9kho","price":3.33,"quantityRemaining":15},{"itemName":"very delicious pineapple with a long name","imgSrc":"https://tinyurl.com/k2oq2to","price":4.75,"quantityRemaining":1},{"itemName":"strawberries","imgSrc":"https://tinyurl.com/nyy33hf","price":2.05,"quantityRemaining":3}]
+module.exports = [{"id":1,"itemName":"banana","imgSrc":"https://tinyurl.com/zcdrymz","price":1.25,"quantityRemaining":10},{"id":2,"itemName":"apple","imgSrc":"https://tinyurl.com/lg5rj5z","price":2.5,"quantityRemaining":5},{"id":3,"itemName":"raspberry","imgSrc":"https://tinyurl.com/mhoedwl","price":4,"quantityRemaining":2},{"id":4,"itemName":"kiwi","imgSrc":"https://tinyurl.com/mdm9kho","price":3.33,"quantityRemaining":15},{"id":5,"itemName":"very delicious pineapple with a long name","imgSrc":"https://tinyurl.com/k2oq2to","price":4.75,"quantityRemaining":1},{"id":6,"itemName":"strawberries","imgSrc":"https://tinyurl.com/nyy33hf","price":2.05,"quantityRemaining":3}]
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FruitIndexItem = function (_React$Component) {
+  _inherits(FruitIndexItem, _React$Component);
+
+  function FruitIndexItem(props) {
+    _classCallCheck(this, FruitIndexItem);
+
+    return _possibleConstructorReturn(this, (FruitIndexItem.__proto__ || Object.getPrototypeOf(FruitIndexItem)).call(this, props));
+  }
+
+  _createClass(FruitIndexItem, [{
+    key: "render",
+    value: function render() {
+      var fruit = this.props.fruit;
+      return _react2.default.createElement(
+        "div",
+        { className: "fruitItem" },
+        _react2.default.createElement("img", { className: "fruitImage", src: fruit.imgSrc }),
+        _react2.default.createElement(
+          "div",
+          { className: "fruitName" },
+          fruit.itemName
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "fruitPrice" },
+          fruit.price
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "fruitCount" },
+          fruit.quantityRemaining,
+          " In Stock"
+        ),
+        _react2.default.createElement(
+          "button",
+          { className: "addToCart" },
+          "Add to Cart"
+        )
+      );
+    }
+  }]);
+
+  return FruitIndexItem;
+}(_react2.default.Component);
+
+exports.default = FruitIndexItem;
 
 /***/ })
 /******/ ]);
