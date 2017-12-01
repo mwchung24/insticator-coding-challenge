@@ -4,7 +4,6 @@ import Fruits from './fruits';
 import { fetchFruits } from '../actions/fruit_actions';
 
 const mapStateToProps = (state) => {
-  // debugger
   return {
     fruits: state.fruits,
   };

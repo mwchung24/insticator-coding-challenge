@@ -21331,7 +21331,6 @@ var _fruit_actions = __webpack_require__(81);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
-  // debugger
   return {
     fruits: state.fruits
   };
@@ -21408,8 +21407,17 @@ var Fruits = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(
+          'div',
+          { className: 'headerContainer' },
+          _react2.default.createElement(
+            'div',
+            { className: 'header' },
+            'Fruit'
+          )
+        ),
+        _react2.default.createElement(
           'ul',
-          null,
+          { className: 'fruitItems' },
           all_fruits
         )
       );
@@ -21502,7 +21510,7 @@ exports.default = FruitsReducer;
 /* 84 */
 /***/ (function(module, exports) {
 
-module.exports = [{"id":1,"itemName":"banana","imgSrc":"https://tinyurl.com/zcdrymz","price":1.25,"quantityRemaining":10},{"id":2,"itemName":"apple","imgSrc":"https://tinyurl.com/lg5rj5z","price":2.5,"quantityRemaining":5},{"id":3,"itemName":"raspberry","imgSrc":"https://tinyurl.com/mhoedwl","price":4,"quantityRemaining":2},{"id":4,"itemName":"kiwi","imgSrc":"https://tinyurl.com/mdm9kho","price":3.33,"quantityRemaining":15},{"id":5,"itemName":"very delicious pineapple with a long name","imgSrc":"https://tinyurl.com/k2oq2to","price":4.75,"quantityRemaining":1},{"id":6,"itemName":"strawberries","imgSrc":"https://tinyurl.com/nyy33hf","price":2.05,"quantityRemaining":3}]
+module.exports = [{"id":1,"itemName":"banana","imgSrc":"https://tinyurl.com/zcdrymz","price":1.25,"quantityRemaining":10},{"id":2,"itemName":"apple","imgSrc":"https://tinyurl.com/lg5rj5z","price":2.5,"quantityRemaining":5},{"id":3,"itemName":"raspberry","imgSrc":"https://tinyurl.com/mhoedwl","price":4,"quantityRemaining":2},{"id":4,"itemName":"kiwi","imgSrc":"https://tinyurl.com/mdm9kho","price":3.33,"quantityRemaining":15},{"id":5,"itemName":"pineapple","imgSrc":"https://tinyurl.com/k2oq2to","price":4.75,"quantityRemaining":1},{"id":6,"itemName":"strawberries","imgSrc":"https://tinyurl.com/nyy33hf","price":2.05,"quantityRemaining":3}]
 
 /***/ }),
 /* 85 */
@@ -21542,6 +21550,7 @@ var FruitIndexItem = function (_React$Component) {
     key: "render",
     value: function render() {
       var fruit = this.props.fruit;
+
       return _react2.default.createElement(
         "div",
         { className: "fruitItem" },
@@ -21549,18 +21558,23 @@ var FruitIndexItem = function (_React$Component) {
         _react2.default.createElement(
           "div",
           { className: "fruitName" },
-          fruit.itemName
+          fruit.itemName[0].toUpperCase() + fruit.itemName.slice(1)
         ),
         _react2.default.createElement(
           "div",
-          { className: "fruitPrice" },
-          fruit.price
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "fruitCount" },
-          fruit.quantityRemaining,
-          " In Stock"
+          { className: "priceAndCount" },
+          _react2.default.createElement(
+            "div",
+            { className: "fruitPrice" },
+            "$",
+            fruit.price
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "fruitCount" },
+            fruit.quantityRemaining,
+            " In Stock"
+          )
         ),
         _react2.default.createElement(
           "button",

@@ -26,7 +26,10 @@ class Fruits extends React.Component {
 
     return (
       <div>
-        <ul>
+        <div className="headerContainer">
+          <div className="header">Fruit</div>
+        </div>
+        <ul className="fruitItems">
           {all_fruits}
         </ul>
       </div>
