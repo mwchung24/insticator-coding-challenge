@@ -7,6 +7,7 @@ import { addToCart } from '../actions/cart_actions';
 const mapStateToProps = (state) => {
   return {
     fruits: state.fruits,
+    cart: state.cart,
   };
 };
 

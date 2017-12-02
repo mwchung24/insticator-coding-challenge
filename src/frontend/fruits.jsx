@@ -20,6 +20,7 @@ class Fruits extends React.Component {
           <FruitIndexItem
             key={fruit.id}
             fruit={fruit}
+            cart={this.props.cart}
             addToCart={this.props.addToCart}
             updateFruit={this.props.updateFruit}
           />

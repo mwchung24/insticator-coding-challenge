@@ -6,10 +6,16 @@ const CartReducer = (state = {}, action) => {
   switch(action.type) {
     case ADD_TO_CART:
       let fruits = {};
-      // debugger
       let cart = Object.values(state).concat([action.fruit]);
       for (let i = 0; i < cart.length; i++) {
-        fruits[cart[i].id] = cart[i];
+        if(fruits[cart[i].id]) {
+          fruits[cart[i].id].count += 1;
+        } else {
+          fruits[cart[i].id] = cart[i];
+          if(!fruits[cart[i].id].count) {
+            fruits[cart[i].id].count = 1;
+          }
+        }
       }
       return fruits;
     case RECEIVE_CART:

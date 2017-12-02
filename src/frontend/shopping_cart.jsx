@@ -1,5 +1,5 @@
 import React from 'react';
-import FruitIndexItem from './fruit_index_item';
+import ShoppingIndexItem from './shopping_index_item';
 
 class ShoppingCart extends React.Component {
   constructor(props) {
@@ -16,8 +16,9 @@ class ShoppingCart extends React.Component {
     if (fruits) {
       all_fruits = fruits.map((fruit) => {
         return (
-          <FruitIndexItem
+          <ShoppingIndexItem
             key={fruit.id}
+            cart={this.props.cart}
             fruit={fruit}
             addToCart={this.props.addToCart}
             shopping={true}
