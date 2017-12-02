@@ -1,8 +1,6 @@
 .fruitItems {
   display: flex;
   padding: 0;
-  margin-left: 50px;
-  margin-right: 50px;
   flex-wrap: wrap;
 }
 
@@ -43,6 +41,11 @@
   background-color: #58D68D;
   height: 25px;
   width: 130px;
+  cursor: pointer;
+}
+
+.addToCart:focus {
+  outline: none;
 }
 
 .headerContainer {
@@ -60,4 +63,26 @@
   margin-left: 50px;
   display: flex;
   justify-content: center;
+}
+
+.body {
+  display: flex;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.shopping_cart {
+  height: auto;
+  width: 400px;
+  background-color: #58D68D;
+}
+
+.shopping_cart_head {
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-family: verdana;
+  font-weight: 700;
+  margin-top: 10px;
 }
