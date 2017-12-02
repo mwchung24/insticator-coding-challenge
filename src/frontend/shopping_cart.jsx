@@ -13,8 +13,12 @@ class ShoppingCart extends React.Component {
   render() {
     let fruits = Object.values(this.props.cart);
     let all_fruits;
+    let count = 0;
+    let total = 0;
     if (fruits) {
       all_fruits = fruits.map((fruit) => {
+        count += fruit.count;
+        total += fruit.count * fruit.price;
         return (
           <ShoppingIndexItem
             key={fruit.id}
@@ -30,11 +34,16 @@ class ShoppingCart extends React.Component {
     return (
       <div className="shopping_cart">
         <div className="shopping_cart_head">Shopping Cart</div>
-        <div className="itemCount">{fruits.length} items</div>
+        <div className="itemCount">{count} items</div>
         <div className="bodyShopping">
           <ul className="fruitItemsShopping">
             {all_fruits}
           </ul>
+        </div>
+        <div className="Purchase">
+          <div className="total">Total: ${total.toFixed(2)}</div>
+          <button className="emptyCart">Empty Cart</button>
+          <button className="confirmPurchase">Confirm Purchase</button>
         </div>
       </div>
     );

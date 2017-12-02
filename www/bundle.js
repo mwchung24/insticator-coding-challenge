@@ -24794,8 +24794,12 @@ var ShoppingCart = function (_React$Component) {
 
       var fruits = Object.values(this.props.cart);
       var all_fruits = void 0;
+      var count = 0;
+      var total = 0;
       if (fruits) {
         all_fruits = fruits.map(function (fruit) {
+          count += fruit.count;
+          total += fruit.count * fruit.price;
           return _react2.default.createElement(_shopping_index_item2.default, {
             key: fruit.id,
             cart: _this2.props.cart,
@@ -24817,7 +24821,7 @@ var ShoppingCart = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'itemCount' },
-          fruits.length,
+          count,
           ' items'
         ),
         _react2.default.createElement(
@@ -24827,6 +24831,26 @@ var ShoppingCart = function (_React$Component) {
             'ul',
             { className: 'fruitItemsShopping' },
             all_fruits
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'Purchase' },
+          _react2.default.createElement(
+            'div',
+            { className: 'total' },
+            'Total: $',
+            total.toFixed(2)
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'emptyCart' },
+            'Empty Cart'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'confirmPurchase' },
+            'Confirm Purchase'
           )
         )
       );
@@ -24876,23 +24900,45 @@ var ShoppingIndexItem = function (_React$Component) {
     key: "render",
     value: function render() {
       var fruit = this.props.fruit;
+      var product = fruit.price * fruit.count;
       return _react2.default.createElement(
         "div",
-        { className: "fruitItem" },
-        _react2.default.createElement("img", { className: "fruitImage", src: fruit.imgSrc }),
+        { className: "fruitItemShopping" },
         _react2.default.createElement(
           "div",
-          { className: "priceAndCount" },
+          { className: "shoppingTop" },
+          _react2.default.createElement("img", { className: "fruitImageShopping", src: fruit.imgSrc }),
           _react2.default.createElement(
-            "div",
-            { className: "fruitPrice" },
-            "$",
-            fruit.price
+            "button",
+            { className: "shoppingButton" },
+            "-"
           ),
           _react2.default.createElement(
             "div",
             { className: "count" },
             fruit.count
+          ),
+          _react2.default.createElement(
+            "button",
+            { className: "shoppingButton" },
+            "+"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "shoppingBottom" },
+          _react2.default.createElement(
+            "div",
+            { className: "fruitPriceShopping" },
+            "@ $",
+            fruit.price.toFixed(2),
+            " each = $",
+            product.toFixed(2)
+          ),
+          _react2.default.createElement(
+            "button",
+            { className: "deleteButton" },
+            "Delete"
           )
         )
       );
