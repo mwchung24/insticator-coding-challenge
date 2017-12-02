@@ -1223,6 +1223,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ADD_TO_CART = exports.ADD_TO_CART = 'ADD_TO_CART';
 var RECEIVE_CART = exports.RECEIVE_CART = 'RECEIVE_CART';
+var REMOVE_FROM_CART = exports.REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+var DELETE_FROM_CART = exports.DELETE_FROM_CART = 'DELETE_FROM_CART';
 
 var shoppingCart = exports.shoppingCart = function shoppingCart(fruit) {
   return {
@@ -1237,6 +1239,20 @@ var receiveCart = exports.receiveCart = function receiveCart() {
   };
 };
 
+var removeFruit = exports.removeFruit = function removeFruit(fruit) {
+  return {
+    type: REMOVE_FROM_CART,
+    fruit: fruit
+  };
+};
+
+var removeItem = exports.removeItem = function removeItem(fruit) {
+  return {
+    type: DELETE_FROM_CART,
+    fruit: fruit
+  };
+};
+
 var addToCart = exports.addToCart = function addToCart(fruit) {
   return function (dispatch) {
     dispatch(shoppingCart(fruit));
@@ -1246,6 +1262,18 @@ var addToCart = exports.addToCart = function addToCart(fruit) {
 var fetchCart = exports.fetchCart = function fetchCart() {
   return function (dispatch) {
     dispatch(receiveCart());
+  };
+};
+
+var removeFromCart = exports.removeFromCart = function removeFromCart(fruit) {
+  return function (dispatch) {
+    dispatch(removeFruit(fruit));
+  };
+};
+
+var deleteFromCart = exports.deleteFromCart = function deleteFromCart(fruit) {
+  return function (dispatch) {
+    dispatch(removeItem(fruit));
   };
 };
 
@@ -7262,6 +7290,7 @@ var CartReducer = function CartReducer() {
   var action = arguments[1];
 
   Object.freeze(state);
+  var newState = Object.assign({}, state);
   switch (action.type) {
     case _cart_actions.ADD_TO_CART:
       var fruits = {};
@@ -7277,6 +7306,12 @@ var CartReducer = function CartReducer() {
         }
       }
       return fruits;
+    case _cart_actions.REMOVE_FROM_CART:
+      newState[action.fruit.id].count -= 1;
+      return newState;
+    case _cart_actions.DELETE_FROM_CART:
+      delete newState[action.fruit.id];
+      return newState;
     case _cart_actions.RECEIVE_CART:
       return state;
     default:
@@ -24726,11 +24761,14 @@ var _shopping_cart2 = _interopRequireDefault(_shopping_cart);
 
 var _cart_actions = __webpack_require__(26);
 
+var _fruit_actions = __webpack_require__(33);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    cart: state.cart
+    cart: state.cart,
+    fruits: state.fruits
   };
 };
 
@@ -24738,6 +24776,18 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchCart: function fetchCart() {
       return dispatch((0, _cart_actions.fetchCart)());
+    },
+    updateFruit: function updateFruit(fruit) {
+      return dispatch((0, _fruit_actions.updateFruit)(fruit));
+    },
+    addToCart: function addToCart(fruit) {
+      return dispatch((0, _cart_actions.addToCart)(fruit));
+    },
+    removeFromCart: function removeFromCart(fruit) {
+      return dispatch((0, _cart_actions.removeFromCart)(fruit));
+    },
+    deleteFromCart: function deleteFromCart(fruit) {
+      return dispatch((0, _cart_actions.deleteFromCart)(fruit));
     }
   };
 };
@@ -24779,13 +24829,49 @@ var ShoppingCart = function (_React$Component) {
   function ShoppingCart(props) {
     _classCallCheck(this, ShoppingCart);
 
-    return _possibleConstructorReturn(this, (ShoppingCart.__proto__ || Object.getPrototypeOf(ShoppingCart)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ShoppingCart.__proto__ || Object.getPrototypeOf(ShoppingCart)).call(this, props));
+
+    _this.emptyCart = _this.emptyCart.bind(_this);
+    _this.purchaseFruits = _this.purchaseFruits.bind(_this);
+    return _this;
   }
 
   _createClass(ShoppingCart, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.fetchCart();
+    }
+  }, {
+    key: 'purchaseFruits',
+    value: function purchaseFruits() {
+      if (Object.values(this.props.cart).length > 0) {
+        if (confirm("Would you like to proceed and purchase?")) {
+          var cart = Object.values(this.props.cart);
+          for (var i = 0; i < cart.length; i++) {
+            var currentFruit = cart[i];
+            this.props.deleteFromCart(currentFruit);
+          }
+        }
+      } else {
+        alert("Please add fruits to cart!");
+      }
+    }
+  }, {
+    key: 'emptyCart',
+    value: function emptyCart() {
+      var cart = Object.values(this.props.cart);
+      for (var i = 0; i < cart.length; i++) {
+        var currentFruit = cart[i];
+        this.props.deleteFromCart(currentFruit);
+        var newFruit = {
+          id: currentFruit.id,
+          itemName: currentFruit.itemName,
+          imgSrc: currentFruit.imgSrc,
+          price: currentFruit.price,
+          quantityRemaining: this.props.fruits[currentFruit.id].quantityRemaining + currentFruit.count
+        };
+        this.props.updateFruit(newFruit);
+      }
     }
   }, {
     key: 'render',
@@ -24804,7 +24890,11 @@ var ShoppingCart = function (_React$Component) {
             key: fruit.id,
             cart: _this2.props.cart,
             fruit: fruit,
+            fruits: _this2.props.fruits,
             addToCart: _this2.props.addToCart,
+            removeFromCart: _this2.props.removeFromCart,
+            deleteFromCart: _this2.props.deleteFromCart,
+            updateFruit: _this2.props.updateFruit,
             shopping: true
           });
         });
@@ -24844,12 +24934,12 @@ var ShoppingCart = function (_React$Component) {
           ),
           _react2.default.createElement(
             'button',
-            { className: 'emptyCart' },
+            { className: 'emptyCart', onClick: this.emptyCart },
             'Empty Cart'
           ),
           _react2.default.createElement(
             'button',
-            { className: 'confirmPurchase' },
+            { className: 'confirmPurchase', onClick: this.purchaseFruits },
             'Confirm Purchase'
           )
         )
@@ -24893,10 +24983,60 @@ var ShoppingIndexItem = function (_React$Component) {
   function ShoppingIndexItem(props) {
     _classCallCheck(this, ShoppingIndexItem);
 
-    return _possibleConstructorReturn(this, (ShoppingIndexItem.__proto__ || Object.getPrototypeOf(ShoppingIndexItem)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ShoppingIndexItem.__proto__ || Object.getPrototypeOf(ShoppingIndexItem)).call(this, props));
+
+    _this.addFruit = _this.addFruit.bind(_this);
+    _this.removeFruit = _this.removeFruit.bind(_this);
+    _this.deleteFromCart = _this.deleteFromCart.bind(_this);
+    return _this;
   }
 
   _createClass(ShoppingIndexItem, [{
+    key: "addFruit",
+    value: function addFruit() {
+      if (this.props.fruits[this.props.fruit.id].quantityRemaining > 0) {
+        var newFruit = {
+          id: this.props.fruit.id,
+          itemName: this.props.fruit.itemName,
+          imgSrc: this.props.fruit.imgSrc,
+          price: this.props.fruit.price,
+          quantityRemaining: this.props.fruits[this.props.fruit.id].quantityRemaining - 1
+        };
+        this.props.updateFruit(newFruit);
+        this.props.addToCart(this.props.fruit);
+      } else {
+        alert("No more " + this.props.fruit.itemName + " in stock!");
+      }
+    }
+  }, {
+    key: "removeFruit",
+    value: function removeFruit() {
+      if (this.props.fruit.count > 1) {
+        var newFruit = {
+          id: this.props.fruit.id,
+          itemName: this.props.fruit.itemName,
+          imgSrc: this.props.fruit.imgSrc,
+          price: this.props.fruit.price,
+          quantityRemaining: this.props.fruits[this.props.fruit.id].quantityRemaining + 1
+        };
+        this.props.updateFruit(newFruit);
+        this.props.removeFromCart(this.props.fruit);
+      }
+    }
+  }, {
+    key: "deleteFromCart",
+    value: function deleteFromCart() {
+      this.props.deleteFromCart(this.props.fruit);
+      var newFruit = {
+        id: this.props.fruit.id,
+        itemName: this.props.fruit.itemName,
+        imgSrc: this.props.fruit.imgSrc,
+        price: this.props.fruit.price,
+        quantityRemaining: this.props.fruits[this.props.fruit.id].quantityRemaining + this.props.fruit.count
+      };
+      this.props.updateFruit(newFruit);
+    }
+  }, {
     key: "render",
     value: function render() {
       var fruit = this.props.fruit;
@@ -24910,7 +25050,7 @@ var ShoppingIndexItem = function (_React$Component) {
           _react2.default.createElement("img", { className: "fruitImageShopping", src: fruit.imgSrc }),
           _react2.default.createElement(
             "button",
-            { className: "shoppingButton" },
+            { className: "shoppingButton", onClick: this.removeFruit },
             "-"
           ),
           _react2.default.createElement(
@@ -24920,7 +25060,7 @@ var ShoppingIndexItem = function (_React$Component) {
           ),
           _react2.default.createElement(
             "button",
-            { className: "shoppingButton" },
+            { className: "shoppingButton", onClick: this.addFruit },
             "+"
           )
         ),
@@ -24937,7 +25077,7 @@ var ShoppingIndexItem = function (_React$Component) {
           ),
           _react2.default.createElement(
             "button",
-            { className: "deleteButton" },
+            { className: "deleteButton", onClick: this.deleteFromCart },
             "Delete"
           )
         )

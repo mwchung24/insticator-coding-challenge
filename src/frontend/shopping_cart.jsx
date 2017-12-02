@@ -4,10 +4,43 @@ import ShoppingIndexItem from './shopping_index_item';
 class ShoppingCart extends React.Component {
   constructor(props) {
     super(props);
+
+    this.emptyCart = this.emptyCart.bind(this);
+    this.purchaseFruits = this.purchaseFruits.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchCart();
+  }
+
+  purchaseFruits() {
+    if(Object.values(this.props.cart).length > 0) {
+      if(confirm("Would you like to proceed and purchase?")) {
+        let cart = Object.values(this.props.cart);
+        for (let i = 0; i < cart.length; i++) {
+          let currentFruit = cart[i];
+          this.props.deleteFromCart(currentFruit);
+        }
+      }
+    } else {
+      alert("Please add fruits to cart!");
+    }
+  }
+
+  emptyCart() {
+    let cart = Object.values(this.props.cart);
+    for (let i = 0; i < cart.length; i++) {
+      let currentFruit = cart[i];
+      this.props.deleteFromCart(currentFruit);
+      let newFruit = {
+        id: currentFruit.id,
+        itemName: currentFruit.itemName,
+        imgSrc: currentFruit.imgSrc,
+        price: currentFruit.price,
+        quantityRemaining: this.props.fruits[currentFruit.id].quantityRemaining + currentFruit.count,
+      };
+      this.props.updateFruit(newFruit);
+    }
   }
 
   render() {
@@ -24,7 +57,11 @@ class ShoppingCart extends React.Component {
             key={fruit.id}
             cart={this.props.cart}
             fruit={fruit}
+            fruits={this.props.fruits}
             addToCart={this.props.addToCart}
+            removeFromCart={this.props.removeFromCart}
+            deleteFromCart={this.props.deleteFromCart}
+            updateFruit={this.props.updateFruit}
             shopping={true}
           />
         );
@@ -42,8 +79,8 @@ class ShoppingCart extends React.Component {
         </div>
         <div className="Purchase">
           <div className="total">Total: ${total.toFixed(2)}</div>
-          <button className="emptyCart">Empty Cart</button>
-          <button className="confirmPurchase">Confirm Purchase</button>
+          <button className="emptyCart" onClick={this.emptyCart}>Empty Cart</button>
+          <button className="confirmPurchase" onClick={this.purchaseFruits}>Confirm Purchase</button>
         </div>
       </div>
     );

@@ -1,8 +1,9 @@
-import { ADD_TO_CART, RECEIVE_CART } from '../actions/cart_actions';
+import { ADD_TO_CART, RECEIVE_CART, REMOVE_FROM_CART, DELETE_FROM_CART } from '../actions/cart_actions';
 import merge from 'lodash/merge';
 
 const CartReducer = (state = {}, action) => {
   Object.freeze(state);
+  let newState = Object.assign({}, state);
   switch(action.type) {
     case ADD_TO_CART:
       let fruits = {};
@@ -18,6 +19,12 @@ const CartReducer = (state = {}, action) => {
         }
       }
       return fruits;
+    case REMOVE_FROM_CART:
+      newState[action.fruit.id].count -= 1;
+      return newState;
+    case DELETE_FROM_CART:
+      delete newState[action.fruit.id];
+      return newState;
     case RECEIVE_CART:
       return state;
     default:
