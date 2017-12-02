@@ -12,7 +12,7 @@ class Fruits extends React.Component {
   }
 
   render() {
-    let fruits = this.props.fruits;
+    let fruits = Object.values(this.props.fruits);
     let all_fruits;
     if (fruits) {
       all_fruits = fruits.map((fruit) => {
@@ -21,6 +21,7 @@ class Fruits extends React.Component {
             key={fruit.id}
             fruit={fruit}
             addToCart={this.props.addToCart}
+            updateFruit={this.props.updateFruit}
           />
         );
       });

@@ -2,6 +2,7 @@
   display: flex;
   padding: 0;
   flex-wrap: wrap;
+  height: 100%;
 }
 
 .fruitItem {
@@ -85,4 +86,11 @@
   font-family: verdana;
   font-weight: 700;
   margin-top: 10px;
+}
+
+.itemCount {
+  color: white;
+  font-family: verdana;
+  display: flex;
+  justify-content: center;
 }

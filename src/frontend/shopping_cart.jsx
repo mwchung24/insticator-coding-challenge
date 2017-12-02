@@ -11,7 +11,7 @@ class ShoppingCart extends React.Component {
   }
 
   render() {
-    let fruits = this.props.cart;
+    let fruits = Object.values(this.props.cart);
     let all_fruits;
     if (fruits) {
       all_fruits = fruits.map((fruit) => {
@@ -29,6 +29,7 @@ class ShoppingCart extends React.Component {
     return (
       <div className="shopping_cart">
         <div className="shopping_cart_head">Shopping Cart</div>
+        <div className="itemCount">{fruits.length} items</div>
         <div className="bodyShopping">
           <ul className="fruitItemsShopping">
             {all_fruits}
